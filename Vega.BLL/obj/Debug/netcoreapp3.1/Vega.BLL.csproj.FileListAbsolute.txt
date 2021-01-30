@@ -1,0 +1,12 @@
+D:\Projects for portfolio\Vega\Vega.BLL\bin\Debug\netcoreapp3.1\Vega.DAL.dll
+D:\Projects for portfolio\Vega\Vega.BLL\obj\Debug\netcoreapp3.1\Vega.BLL.csprojAssemblyReference.cache
+D:\Projects for portfolio\Vega\Vega.BLL\obj\Debug\netcoreapp3.1\Vega.BLL.AssemblyInfoInputs.cache
+D:\Projects for portfolio\Vega\Vega.BLL\obj\Debug\netcoreapp3.1\Vega.BLL.AssemblyInfo.cs
+D:\Projects for portfolio\Vega\Vega.BLL\obj\Debug\netcoreapp3.1\Vega.BLL.csproj.CoreCompileInputs.cache
+D:\Projects for portfolio\Vega\Vega.BLL\bin\Debug\netcoreapp3.1\Vega.BLL.deps.json
+D:\Projects for portfolio\Vega\Vega.BLL\bin\Debug\netcoreapp3.1\Vega.BLL.dll
+D:\Projects for portfolio\Vega\Vega.BLL\bin\Debug\netcoreapp3.1\Vega.BLL.pdb
+D:\Projects for portfolio\Vega\Vega.BLL\bin\Debug\netcoreapp3.1\Vega.DAL.pdb
+D:\Projects for portfolio\Vega\Vega.BLL\obj\Debug\netcoreapp3.1\Vega.BLL.csproj.CopyComplete
+D:\Projects for portfolio\Vega\Vega.BLL\obj\Debug\netcoreapp3.1\Vega.BLL.dll
+D:\Projects for portfolio\Vega\Vega.BLL\obj\Debug\netcoreapp3.1\Vega.BLL.pdb

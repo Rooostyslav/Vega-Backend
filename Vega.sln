@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30523.141
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vega.API", "Vega.API\Vega.API.csproj", "{D5270FDF-A05B-411D-8A8F-1B681A8B47A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vega.DAL", "Vega.DAL\Vega.DAL.csproj", "{B05DF84A-44AE-4760-9295-A15681641D98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vega.BLL", "Vega.BLL\Vega.BLL.csproj", "{079159D2-992B-44C5-9000-D585402302BD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D5270FDF-A05B-411D-8A8F-1B681A8B47A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5270FDF-A05B-411D-8A8F-1B681A8B47A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5270FDF-A05B-411D-8A8F-1B681A8B47A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5270FDF-A05B-411D-8A8F-1B681A8B47A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B05DF84A-44AE-4760-9295-A15681641D98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B05DF84A-44AE-4760-9295-A15681641D98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B05DF84A-44AE-4760-9295-A15681641D98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B05DF84A-44AE-4760-9295-A15681641D98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{079159D2-992B-44C5-9000-D585402302BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{079159D2-992B-44C5-9000-D585402302BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{079159D2-992B-44C5-9000-D585402302BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{079159D2-992B-44C5-9000-D585402302BD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EA872515-3C50-4375-B41E-BFC77795690A}
+	EndGlobalSection
+EndGlobal
