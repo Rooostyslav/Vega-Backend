@@ -15,14 +15,14 @@ namespace Vega.API.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult Get()
+		public IActionResult GetFeatures()
 		{
 			var features = featureService.GetFeatures();
 			if (features.Count() > 0)
 			{
 				return Ok(features);
 			}
-
+			
 			return NoContent();
 		}
 	}

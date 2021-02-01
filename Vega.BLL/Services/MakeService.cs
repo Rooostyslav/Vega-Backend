@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using System.Collections.Generic;
-using System.Linq;
 using Vega.BLL.DTO;
 using Vega.BLL.Interfaces;
 using Vega.DAL.Entity;

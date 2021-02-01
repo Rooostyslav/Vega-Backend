@@ -26,6 +26,14 @@ namespace Vega.API
 			services.AddServices();
 
 			services.AddControllers();
+
+			services.AddCors(options =>
+			{
+				options.AddPolicy("CorsPolicy",
+					builder => builder.AllowAnyOrigin()
+					.AllowAnyMethod()
+					.AllowAnyHeader());
+			});
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -40,6 +48,8 @@ namespace Vega.API
 			app.UseRouting();
 
 			app.UseAuthorization();
+
+			app.UseCors("CorsPolicy");
 
 			app.UseEndpoints(endpoints =>
 			{

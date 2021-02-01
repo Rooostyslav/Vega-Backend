@@ -21,7 +21,7 @@ namespace Vega.API.Controllers
 			var makes = makeService.GetMakes();
 			if (makes.Count() > 0)
 			{
-				return Ok(makes.ToList());
+				return Ok(makes);
 			}
 
 			return NoContent();

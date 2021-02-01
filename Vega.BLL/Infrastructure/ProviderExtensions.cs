@@ -16,7 +16,7 @@ namespace Vega.BLL.Infrastructure
 			services.AddDbContext<VegaDbContext>(options =>
 				options.UseSqlServer(connectionString));
 
-			services.AddSingleton<IUnitOfWork>(new UnitOfWork(connectionString));
+			services.AddTransient<IUnitOfWork>(s => new UnitOfWork(connectionString));
 		}
 
 		public static void AddAutoMapper(this IServiceCollection services)
