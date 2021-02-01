@@ -3,15 +3,19 @@ using System.Collections.ObjectModel;
 
 namespace Vega.BLL.DTO
 {
-	public class FeatureDTO
+	public class ContactDTO
 	{
 		public int Id { get; set; }
 
 		public string Name { get; set; }
 
+		public string Phone { get; set; }
+
+		public string Email { get; set; }
+
 		public virtual ICollection<VehicleDTO> Vehicles { get; set; }
 
-		public FeatureDTO()
+		public ContactDTO()
 		{
 			Vehicles = new Collection<VehicleDTO>();
 		}

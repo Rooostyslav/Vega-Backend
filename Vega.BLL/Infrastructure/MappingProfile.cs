@@ -11,6 +11,8 @@ namespace Vega.BLL.Infrastructure
 			CreateMap<Make, MakeDTO>().ReverseMap();
 			CreateMap<Model, ModelDTO>().ReverseMap();
 			CreateMap<Feature, FeatureDTO>().ReverseMap();
+			CreateMap<Vehicle, VehicleDTO>().ReverseMap();
+			CreateMap<Contact, ContactDTO>().ReverseMap();
 		}
 	}
 }
