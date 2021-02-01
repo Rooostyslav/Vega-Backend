@@ -7,6 +7,8 @@ namespace Vega.DAL.Interfaces
 		IRepository<Make> Makes { get; }
 		IRepository<Model> Models { get; }
 		IRepository<Feature> Features { get; }
+		IRepository<Vehicle> Vehicles { get; }
+		IRepository<Contact> Contacts { get; }
 		void Save();
 	}
 }

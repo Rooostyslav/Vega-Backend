@@ -9,6 +9,8 @@ namespace Vega.DAL.EF
 		public DbSet<Make> Makes { get; set; }
 		public DbSet<Model> Models { get; set; }
 		public DbSet<Feature> Features { get; set; }
+		public DbSet<Vehicle> Vehicles { get; set; }
+		public DbSet<Contact> Contacts { get; set; }
 
 		public VegaDbContext(DbContextOptions<VegaDbContext> options)
 			: base(options)
@@ -40,6 +42,16 @@ namespace Vega.DAL.EF
 				new Feature() { Id = 2, Name = "ESP" },
 				new Feature() { Id = 3, Name = "Air Bag" }
 			};
+
+			Contact contact = new Contact()
+			{
+				Id = 1,
+				Name = "Ben",
+				Phone = "24352215",
+				Email = "324425"
+			};
+
+			modelBuilder.Entity<Contact>().HasData(contact);
 
 			modelBuilder.Entity<Model>().HasData(models);
 			

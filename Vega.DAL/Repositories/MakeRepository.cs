@@ -24,7 +24,7 @@ namespace Vega.DAL.Repositories
 
 		public void Delete(int id)
 		{
-			var make = vegaDbContext.Makes.Find(id);
+			var make = Get(id);
 			if (make != null) 
 			{
 				vegaDbContext.Makes.Remove(make);

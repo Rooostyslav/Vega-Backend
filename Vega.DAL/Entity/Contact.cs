@@ -5,8 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Vega.DAL.Entity
 {
-	[Table("Makes")]
-	public class Make
+	[Table("Contacts")]
+	public class Contact
 	{
 		[Key]
 		public int Id { get; set; }
@@ -15,11 +15,19 @@ namespace Vega.DAL.Entity
 		[StringLength(255)]
 		public string Name { get; set; }
 
-		public virtual ICollection<Model> Models { get; set; }
+		[Required]
+		[StringLength(255)]
+		public string Phone { get; set; }
 
-		public Make()
+		[Required]
+		[StringLength(255)]
+		public string Email { get; set; }
+
+		public virtual ICollection<Vehicle> Vehicles { get; set; }
+
+		public Contact()
 		{
-			Models = new Collection<Model>();
+			Vehicles = new Collection<Vehicle>();
 		}
 	}
 }

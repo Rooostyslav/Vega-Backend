@@ -19,7 +19,7 @@ namespace Vega.DAL.Repositories
 
 		public void Delete(int id)
 		{
-			var model = vegaDbContext.Models.Find(id);
+			var model = Get(id);
 			if (model != null)
 			{
 				vegaDbContext.Models.Remove(model);
@@ -28,7 +28,7 @@ namespace Vega.DAL.Repositories
 
 		public IEnumerable<Model> Find(Func<Model, bool> predicate)
 		{
-			return vegaDbContext.Models.Where(predicate);
+			return vegaDbContext.Models.Include(m => m.Vehicles).Where(predicate);
 		}
 
 		public Model Get(int id)
@@ -38,7 +38,7 @@ namespace Vega.DAL.Repositories
 
 		public IEnumerable<Model> GetAll()
 		{
-			return vegaDbContext.Models;
+			return vegaDbContext.Models.Include(m => m.Vehicles);
 		}
 
 		public void Insert(Model item)

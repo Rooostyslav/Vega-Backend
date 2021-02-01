@@ -19,7 +19,7 @@ namespace Vega.DAL.Repositories
 
 		public void Delete(int id)
 		{
-			var feature = vegaDbContext.Features.Find(id);
+			var feature = Get(id);
 			if (feature != null)
 			{
 				vegaDbContext.Features.Remove(feature);

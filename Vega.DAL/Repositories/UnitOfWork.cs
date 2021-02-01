@@ -11,6 +11,8 @@ namespace Vega.DAL.Repositories
 		private MakeRepository MakeRepository;
 		private ModelRepository ModelRepository;
 		private FeatureRepository FeatureRepository;
+		private VehicleRepository VehicleRepository;
+		private ContactRepository ContactRepository;
 
 		public UnitOfWork(string connectionString)
 		{
@@ -56,6 +58,32 @@ namespace Vega.DAL.Repositories
 				}
 
 				return FeatureRepository;
+			}
+		}
+
+		public IRepository<Vehicle> Vehicles
+		{
+			get
+			{
+				if (VehicleRepository == null)
+				{
+					VehicleRepository = new VehicleRepository(vegaDbContext);
+				}
+
+				return VehicleRepository;
+			}
+		}
+
+		public IRepository<Contact> Contacts
+		{
+			get
+			{
+				if (ContactRepository == null)
+				{
+					ContactRepository = new ContactRepository(vegaDbContext);
+				}
+
+				return ContactRepository;
 			}
 		}
 

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Vega.DAL.Entity
@@ -6,6 +8,7 @@ namespace Vega.DAL.Entity
 	[Table("Models")]
 	public class Model
 	{
+		[Key]
 		public int Id { get; set; }
 
 		[Required]
@@ -15,5 +18,12 @@ namespace Vega.DAL.Entity
 		public Make Make { get; set; }
 
 		public int MakeId { get; set; }
+
+		public virtual ICollection<Vehicle> Vehicles { get; set; }
+
+		public Model()
+		{
+			Vehicles = new Collection<Vehicle>();
+		}
 	}
 }
