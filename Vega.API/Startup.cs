@@ -25,7 +25,10 @@ namespace Vega.API
 
 			services.AddServices();
 
-			services.AddControllers();
+			services.AddControllers()
+				.AddNewtonsoftJson(option => 
+				option.SerializerSettings.ReferenceLoopHandling 
+				= Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
 			services.AddCors(options =>
 			{

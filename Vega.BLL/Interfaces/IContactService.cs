@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Vega.BLL.DTO;
+using Vega.BLL.DTO.ContactModels;
 
 namespace Vega.BLL.Interfaces
 {
@@ -8,7 +8,7 @@ namespace Vega.BLL.Interfaces
 		void Insert(ContactDTO contactDTO);
 		void Update(ContactDTO contactDTO);
 		void Delete(int id);
-		ContactDTO GetContact(int id);
-		IEnumerable<ContactDTO> GetContacts();
+		ViewContactDTO GetContact(int id);
+		IEnumerable<ViewContactDTO> GetContacts();
 	}
 }

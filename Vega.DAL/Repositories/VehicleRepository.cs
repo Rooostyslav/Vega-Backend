@@ -28,17 +28,26 @@ namespace Vega.DAL.Repositories
 
 		public IEnumerable<Vehicle> Find(Func<Vehicle, bool> predicate)
 		{
-			return vegaDbContext.Vehicles.Include(v => v.Features).Where(predicate);
+			return GetAll().Where(predicate);
 		}
 
 		public Vehicle Get(int id)
 		{
-			return vegaDbContext.Vehicles.Find(id);
+			return vegaDbContext.Vehicles
+				.Include(v => v.Model.Make)
+				.Include(v => v.Model)
+				.Include(v => v.Contact)
+				.Include(v => v.Features)
+				.FirstOrDefault(v => v.Id == id);
 		}
 
 		public IEnumerable<Vehicle> GetAll()
 		{
-			return vegaDbContext.Vehicles.Include(v => v.Features);
+			return vegaDbContext.Vehicles
+				.Include(v => v.Model.Make)
+				.Include(v => v.Model)
+				.Include(v => v.Contact)
+				.Include(v => v.Features);
 		}
 
 		public void Insert(Vehicle item)
@@ -48,7 +57,9 @@ namespace Vega.DAL.Repositories
 
 		public void Update(Vehicle item)
 		{
-			vegaDbContext.Entry(item).State = EntityState.Modified;
+			var oldItem = Get(item.Id);
+			oldItem.Features = item.Features;
+			vegaDbContext.Entry(oldItem).CurrentValues.SetValues(item);
 		}
 	}
 }

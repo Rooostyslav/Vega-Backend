@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Vega.BLL.DTO
+namespace Vega.BLL.DTO.VehicleModels
 {
 	public class VehicleDTO
 	{
@@ -10,11 +10,7 @@ namespace Vega.BLL.DTO
 
 		public int ModelId { get; set; }
 
-		public ModelDTO Model { get; set; }
-
 		public int ContactId { get; set; }
-
-		public ContactDTO Contact { get; set; }
 
 		public bool IsRegistered { get; set; }
 

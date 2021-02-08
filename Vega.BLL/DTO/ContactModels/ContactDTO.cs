@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Vega.BLL.DTO.VehicleModels;
 
-namespace Vega.BLL.DTO
+namespace Vega.BLL.DTO.ContactModels
 {
 	public class ContactDTO
 	{

@@ -65,5 +65,8 @@ D:\Projects for portfolio\Vega\Vega.API\obj\Debug\netcoreapp3.1\Vega.API.pdb
 D:\Projects for portfolio\Vega\Vega.API\obj\Debug\netcoreapp3.1\Vega.API.genruntimeconfig.cache
 D:\Projects for portfolio\Vega\Vega.API\bin\Debug\netcoreapp3.1\Humanizer.dll
 D:\Projects for portfolio\Vega\Vega.API\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Design.dll
+D:\Projects for portfolio\Vega\Vega.API\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
+D:\Projects for portfolio\Vega\Vega.API\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\Projects for portfolio\Vega\Vega.API\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
 D:\Projects for portfolio\Vega\Vega.API\obj\Debug\netcoreapp3.1\Vega.API.csproj.CoreCompileInputs.cache
 D:\Projects for portfolio\Vega\Vega.API\obj\Debug\netcoreapp3.1\Vega.API.MvcApplicationPartsAssemblyInfo.cache
