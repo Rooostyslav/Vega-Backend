@@ -9,3 +9,4 @@ D:\Projects for portfolio\Vega\Vega.DAL\bin\Debug\netcoreapp3.1\Vega.DAL.pdb
 D:\Projects for portfolio\Vega\Vega.DAL\obj\Debug\netcoreapp3.1\Vega.DAL.dll
 D:\Projects for portfolio\Vega\Vega.DAL\obj\Debug\netcoreapp3.1\Vega.DAL.pdb
 D:\Projects for portfolio\Vega\Vega.DAL\obj\Debug\netcoreapp3.1\Vega.DAL.csproj.CoreCompileInputs.cache
+D:\Projects for portfolio\Vega\Vega.DAL\obj\Debug\netcoreapp3.1\Vega.DAL.csprojAssemblyReference.cache

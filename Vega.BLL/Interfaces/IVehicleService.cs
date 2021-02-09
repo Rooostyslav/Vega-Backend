@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Vega.BLL.BusinessModels;
 using Vega.BLL.DTO.VehicleModels;
 
 namespace Vega.BLL.Interfaces
@@ -10,5 +11,6 @@ namespace Vega.BLL.Interfaces
 		void Delete(int id);
 		ViewVehicleDTO GetVehicle(int id);
 		IEnumerable<ViewVehicleDTO> GetVehicles();
+		QueryResult<ViewVehicleDTO> GetVehicles(VehicleFilter filter);
 	}
 }

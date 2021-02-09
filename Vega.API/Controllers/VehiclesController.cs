@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using Vega.BLL.BusinessModels;
 using Vega.BLL.DTO.VehicleModels;
 using Vega.BLL.Interfaces;
 
@@ -29,10 +30,10 @@ namespace Vega.API.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult GetVehicles()
+		public IActionResult GetVehicles([FromQuery] VehicleFilter filter)
 		{
-			var vehicles = vehiclesService.GetVehicles();
-			if (vehicles.Count() > 0)
+			var vehicles = vehiclesService.GetVehicles(filter);
+			if (vehicles.TotalItems > 0)
 			{
 				return Ok(vehicles);
 			}

@@ -33,19 +33,14 @@ namespace Vega.DAL.Repositories
 
 		public Vehicle Get(int id)
 		{
-			return vegaDbContext.Vehicles
-				.Include(v => v.Model.Make)
-				.Include(v => v.Model)
-				.Include(v => v.Contact)
-				.Include(v => v.Features)
-				.FirstOrDefault(v => v.Id == id);
+			return GetAll().FirstOrDefault(v => v.Id == id);
 		}
 
 		public IEnumerable<Vehicle> GetAll()
 		{
 			return vegaDbContext.Vehicles
-				.Include(v => v.Model.Make)
 				.Include(v => v.Model)
+				.ThenInclude(m => m.Make)
 				.Include(v => v.Contact)
 				.Include(v => v.Features);
 		}

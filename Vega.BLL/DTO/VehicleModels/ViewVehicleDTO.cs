@@ -9,7 +9,7 @@ namespace Vega.BLL.DTO.VehicleModels
 	{
 		public int Id { get; set; }
 
-		public KeyValuePair Made { get; set; }
+		public KeyValuePair Make { get; set; }
 
 		public KeyValuePair Model { get; set; }
 

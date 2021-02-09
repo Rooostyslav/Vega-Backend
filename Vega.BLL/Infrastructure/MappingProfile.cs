@@ -20,7 +20,7 @@ namespace Vega.BLL.Infrastructure
 			CreateMap<Contact, ContactDTO>().ReverseMap();
 
 			CreateMap<Vehicle, ViewVehicleDTO>()
-				.ForMember(v => v.Made, opt => 
+				.ForMember(v => v.Make, opt => 
 					opt.MapFrom(vv => new KeyValuePair() { Id = vv.Model.MakeId, Name = vv.Model.Make.Name }))
 				.ForMember(v => v.Model, opt => 
 					opt.MapFrom(vv => new KeyValuePair() { Id = vv.ModelId, Name = vv.Model.Name }))
