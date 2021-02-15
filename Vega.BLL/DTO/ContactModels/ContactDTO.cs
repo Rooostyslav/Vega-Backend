@@ -14,7 +14,7 @@ namespace Vega.BLL.DTO.ContactModels
 
 		public string Email { get; set; }
 
-		public virtual ICollection<VehicleDTO> Vehicles { get; set; }
+		public ICollection<VehicleDTO> Vehicles { get; set; }
 
 		public ContactDTO()
 		{

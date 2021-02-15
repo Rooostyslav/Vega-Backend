@@ -8,11 +8,12 @@ namespace Vega.DAL.Repositories
 	public class UnitOfWork : IUnitOfWork
 	{
 		private readonly VegaDbContext vegaDbContext;
-		private MakeRepository MakeRepository;
-		private ModelRepository ModelRepository;
-		private FeatureRepository FeatureRepository;
-		private VehicleRepository VehicleRepository;
-		private ContactRepository ContactRepository;
+		private MakeRepository makeRepository;
+		private ModelRepository modelRepository;
+		private FeatureRepository featureRepository;
+		private VehicleRepository vehicleRepository;
+		private ContactRepository contactRepository;
+		private PhotoRepository photoRepository;
 
 		public UnitOfWork(string connectionString)
 		{
@@ -25,12 +26,12 @@ namespace Vega.DAL.Repositories
 		{
 			get
 			{
-				if (MakeRepository == null)
+				if (makeRepository == null)
 				{
-					MakeRepository = new MakeRepository(vegaDbContext);
+					makeRepository = new MakeRepository(vegaDbContext);
 				}
 
-				return MakeRepository;
+				return makeRepository;
 			}
 		}
 
@@ -38,12 +39,12 @@ namespace Vega.DAL.Repositories
 		{
 			get
 			{
-				if (ModelRepository == null)
+				if (modelRepository == null)
 				{
-					ModelRepository = new ModelRepository(vegaDbContext);
+					modelRepository = new ModelRepository(vegaDbContext);
 				}
 
-				return ModelRepository;
+				return modelRepository;
 			}
 		}
 
@@ -52,12 +53,12 @@ namespace Vega.DAL.Repositories
 		{
 			get
 			{
-				if (FeatureRepository == null)
+				if (featureRepository == null)
 				{
-					FeatureRepository = new FeatureRepository(vegaDbContext);
+					featureRepository = new FeatureRepository(vegaDbContext);
 				}
 
-				return FeatureRepository;
+				return featureRepository;
 			}
 		}
 
@@ -65,12 +66,12 @@ namespace Vega.DAL.Repositories
 		{
 			get
 			{
-				if (VehicleRepository == null)
+				if (vehicleRepository == null)
 				{
-					VehicleRepository = new VehicleRepository(vegaDbContext);
+					vehicleRepository = new VehicleRepository(vegaDbContext);
 				}
 
-				return VehicleRepository;
+				return vehicleRepository;
 			}
 		}
 
@@ -78,12 +79,25 @@ namespace Vega.DAL.Repositories
 		{
 			get
 			{
-				if (ContactRepository == null)
+				if (contactRepository == null)
 				{
-					ContactRepository = new ContactRepository(vegaDbContext);
+					contactRepository = new ContactRepository(vegaDbContext);
 				}
 
-				return ContactRepository;
+				return contactRepository;
+			}
+		}
+
+		public IRepository<Photo> Photos
+		{
+			get
+			{
+				if (photoRepository == null)
+				{
+					photoRepository = new PhotoRepository(vegaDbContext);
+				}
+
+				return photoRepository;
 			}
 		}
 

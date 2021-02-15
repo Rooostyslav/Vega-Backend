@@ -11,6 +11,7 @@ namespace Vega.DAL.EF
 		public DbSet<Feature> Features { get; set; }
 		public DbSet<Vehicle> Vehicles { get; set; }
 		public DbSet<Contact> Contacts { get; set; }
+		public DbSet<Photo> Photos { get; set; }
 
 		public VegaDbContext(DbContextOptions<VegaDbContext> options)
 			: base(options)

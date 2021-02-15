@@ -15,7 +15,7 @@ namespace Vega.BLL.DTO.VehicleModels
 		[Required]
 		public bool IsRegistered { get; set; }
 
-		public virtual ICollection<int> Features { get; set; }
+		public ICollection<int> Features { get; set; }
 
 		public CreateUpdateVehicleDTO()
 		{

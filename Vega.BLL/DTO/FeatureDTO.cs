@@ -10,7 +10,7 @@ namespace Vega.BLL.DTO
 
 		public string Name { get; set; }
 
-		public virtual ICollection<VehicleDTO> Vehicles { get; set; }
+		public ICollection<VehicleDTO> Vehicles { get; set; }
 
 		public FeatureDTO()
 		{

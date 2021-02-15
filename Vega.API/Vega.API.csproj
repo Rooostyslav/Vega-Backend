@@ -16,5 +16,9 @@
     <ProjectReference Include="..\Vega.BLL\Vega.BLL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 
 </Project>

@@ -24,11 +24,14 @@ namespace Vega.DAL.Entity
 
 		public DateTime LastUpdate { get; set; }
 
-		public virtual ICollection<Feature> Features { get; set; }
+		public ICollection<Feature> Features { get; set; }
+
+		public ICollection<Photo> Photos { get; set; }
 
 		public Vehicle()
 		{
 			Features = new Collection<Feature>();
+			Photos = new Collection<Photo>();
 		}
 	}
 }

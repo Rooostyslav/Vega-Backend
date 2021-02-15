@@ -19,7 +19,7 @@ namespace Vega.BLL.DTO.VehicleModels
 
 		public DateTime LastUpdate { get; set; }
 
-		public virtual ICollection<KeyValuePair> Features { get; set; }
+		public ICollection<KeyValuePair> Features { get; set; }
 
 		public ViewVehicleDTO()
 		{

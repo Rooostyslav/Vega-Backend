@@ -37,6 +37,7 @@ namespace Vega.BLL.Infrastructure
 			services.AddSingleton<IFeatureService, FeatureService>();
 			services.AddSingleton<IVehicleService, VehicleService>();
 			services.AddSingleton<IContactService, ContactService>();
+			services.AddSingleton<IPhotoService, PhotoService>();
 		}
 	}
 }

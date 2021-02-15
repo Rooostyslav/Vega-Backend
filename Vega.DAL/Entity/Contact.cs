@@ -23,7 +23,7 @@ namespace Vega.DAL.Entity
 		[StringLength(255)]
 		public string Email { get; set; }
 
-		public virtual ICollection<Vehicle> Vehicles { get; set; }
+		public ICollection<Vehicle> Vehicles { get; set; }
 
 		public Contact()
 		{

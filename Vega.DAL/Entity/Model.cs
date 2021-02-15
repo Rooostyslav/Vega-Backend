@@ -19,7 +19,7 @@ namespace Vega.DAL.Entity
 
 		public int MakeId { get; set; }
 
-		public virtual ICollection<Vehicle> Vehicles { get; set; }
+		public ICollection<Vehicle> Vehicles { get; set; }
 
 		public Model()
 		{

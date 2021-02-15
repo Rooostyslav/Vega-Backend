@@ -15,7 +15,7 @@ namespace Vega.DAL.Entity
 		[StringLength(255)]
 		public string Name { get; set; }
 
-		public virtual ICollection<Model> Models { get; set; }
+		public ICollection<Model> Models { get; set; }
 
 		public Make()
 		{

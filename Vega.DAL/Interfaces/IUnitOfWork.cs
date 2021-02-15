@@ -9,6 +9,7 @@ namespace Vega.DAL.Interfaces
 		IRepository<Feature> Features { get; }
 		IRepository<Vehicle> Vehicles { get; }
 		IRepository<Contact> Contacts { get; }
+		IRepository<Photo> Photos { get; }
 		void Save();
 	}
 }

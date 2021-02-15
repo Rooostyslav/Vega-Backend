@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Vega.BLL.BusinessModels;
 using Vega.BLL.Infrastructure;
 
 namespace Vega.API
@@ -24,6 +25,8 @@ namespace Vega.API
 			services.AddAutoMapper();
 
 			services.AddServices();
+
+			services.Configure<PhotoSettings>(Configuration.GetSection("PhotoSettings"));
 
 			services.AddControllers()
 				.AddNewtonsoftJson(option => 

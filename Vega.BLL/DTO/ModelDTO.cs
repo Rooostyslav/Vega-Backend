@@ -14,7 +14,7 @@ namespace Vega.BLL.DTO
 
 		public int MakeId { get; set; }
 
-		public virtual ICollection<VehicleDTO> Vehicles { get; set; }
+		public ICollection<VehicleDTO> Vehicles { get; set; }
 
 		public ModelDTO()
 		{

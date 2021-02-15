@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Vega.BLL.DTO;
 using Vega.BLL.DTO.ContactModels;
+using Vega.BLL.DTO.PhotoModels;
 using Vega.BLL.DTO.VehicleModels;
 using Vega.DAL.Entity;
 using KeyValuePair = Vega.BLL.DTO.KeyValuePair;
@@ -18,6 +19,7 @@ namespace Vega.BLL.Infrastructure
 			CreateMap<Feature, FeatureDTO>().ReverseMap();
 			CreateMap<Vehicle, VehicleDTO>().ReverseMap();
 			CreateMap<Contact, ContactDTO>().ReverseMap();
+			CreateMap<Photo, PhotoDTO>().ReverseMap();
 
 			CreateMap<Vehicle, ViewVehicleDTO>()
 				.ForMember(v => v.Make, opt => 
