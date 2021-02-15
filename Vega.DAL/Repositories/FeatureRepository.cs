@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Vega.DAL.EF;
 using Vega.DAL.Entity;
 using Vega.DAL.Interfaces;
@@ -17,38 +19,36 @@ namespace Vega.DAL.Repositories
 			this.vegaDbContext = vegaDbContext;
 		}
 
-		public void Delete(int id)
+		public async Task<IEnumerable<Feature>> GetAllAsync()
 		{
-			var feature = Get(id);
-			if (feature != null)
-			{
-				vegaDbContext.Features.Remove(feature);
-			}
+			return await vegaDbContext.Features.ToListAsync();
 		}
 
-		public IEnumerable<Feature> Find(Func<Feature, bool> predicate)
+		public async Task<Feature> GetAsync(int id)
 		{
-			return vegaDbContext.Features.Where(predicate);
+			return await vegaDbContext.Features.FindAsync(id);
 		}
 
-		public Feature Get(int id)
+		public async Task<IEnumerable<Feature>> FindAsync(Expression<Func<Feature, bool>> predicate)
 		{
-			return vegaDbContext.Features.Find(id);
+			return await vegaDbContext.Features.Where(predicate).ToListAsync();
 		}
 
-		public IEnumerable<Feature> GetAll()
+		public async Task InsertAsync(Feature item)
 		{
-			return vegaDbContext.Features;
-		}
-
-		public void Insert(Feature item)
-		{
-			vegaDbContext.Features.Add(item);
+			await vegaDbContext.Features.AddAsync(item);
 		}
 
 		public void Update(Feature item)
 		{
 			vegaDbContext.Entry(item).State = EntityState.Modified; 
+		}
+
+		public void Delete(int id)
+		{
+			var feature = new Feature() { Id = id };
+			vegaDbContext.Features.Attach(feature);
+			vegaDbContext.Features.Remove(feature);
 		}
 	}
 }

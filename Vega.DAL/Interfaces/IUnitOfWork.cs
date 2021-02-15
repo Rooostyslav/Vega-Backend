@@ -1,4 +1,5 @@
-﻿using Vega.DAL.Entity;
+﻿using System.Threading.Tasks;
+using Vega.DAL.Entity;
 
 namespace Vega.DAL.Interfaces
 {
@@ -10,6 +11,6 @@ namespace Vega.DAL.Interfaces
 		IRepository<Vehicle> Vehicles { get; }
 		IRepository<Contact> Contacts { get; }
 		IRepository<Photo> Photos { get; }
-		void Save();
+		Task SaveAsync();
 	}
 }

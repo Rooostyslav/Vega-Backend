@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Vega.DAL.EF;
 using Vega.DAL.Entity;
@@ -17,38 +19,39 @@ namespace Vega.DAL.Repositories
 			this.vegaDbContext = vegaDbContext;
 		}
 
-		public IEnumerable<Make> GetAll()
+		public async Task<IEnumerable<Make>> GetAllAsync()
 		{
-			return vegaDbContext.Makes.Include(m => m.Models);
+			return await vegaDbContext.Makes.Include(m => m.Models).ToListAsync();
 		}
 
-		public void Delete(int id)
+		public async Task<Make> GetAsync(int id)
 		{
-			var make = Get(id);
-			if (make != null) 
-			{
-				vegaDbContext.Makes.Remove(make);
-			}
+			return await vegaDbContext.Makes.FindAsync(id);
 		}
 
-		public IEnumerable<Make> Find(Func<Make, bool> predicate)
+		public async Task<IEnumerable<Make>> FindAsync(Expression<Func<Make, bool>> predicate)
 		{
-			return vegaDbContext.Makes.Include(m => m.Models).Where(predicate);
+			return await vegaDbContext.Makes
+				.Include(m => m.Models)
+				.Where(predicate)
+				.ToListAsync();
 		}
 
-		public Make Get(int id)
+		public async Task InsertAsync(Make item)
 		{
-			return vegaDbContext.Makes.Find(id);
-		}
-
-		public void Insert(Make item)
-		{
-			vegaDbContext.Makes.Add(item);
+			await vegaDbContext.Makes.AddAsync(item);
 		}
 
 		public void Update(Make item)
 		{
 			vegaDbContext.Entry(item).State = EntityState.Modified;
+		}
+
+		public void Delete(int id)
+		{
+			var make = new Make() { Id = id };
+			vegaDbContext.Makes.Attach(make);
+			vegaDbContext.Makes.Remove(make);
 		}
 	}
 }

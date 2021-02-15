@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Vega.DAL.EF;
 using Vega.DAL.Entity;
@@ -17,38 +19,36 @@ namespace Vega.DAL.Repositories
 			this.vegaDbContext = vegaDbContext;
 		}
 
-		public void Delete(int id)
+		public async Task<IEnumerable<Photo>> GetAllAsync()
 		{
-			var photo = Get(id);
-			if (photo != null)
-			{
-				vegaDbContext.Photos.Remove(photo);
-			}
+			return await vegaDbContext.Photos.ToListAsync();
 		}
 
-		public IEnumerable<Photo> Find(Func<Photo, bool> predicate)
+		public async Task<Photo> GetAsync(int id)
 		{
-			return vegaDbContext.Photos.Where(predicate);
+			return await vegaDbContext.Photos.FindAsync(id);
 		}
 
-		public Photo Get(int id)
+		public async Task<IEnumerable<Photo>> FindAsync(Expression<Func<Photo, bool>> predicate)
 		{
-			return vegaDbContext.Photos.Find(id);
+			return await vegaDbContext.Photos.Where(predicate).ToListAsync();
 		}
 
-		public IEnumerable<Photo> GetAll()
+		public async Task InsertAsync(Photo item)
 		{
-			return vegaDbContext.Photos;
-		}
-
-		public void Insert(Photo item)
-		{
-			vegaDbContext.Photos.Add(item);
+			await vegaDbContext.Photos.AddAsync(item);
 		}
 
 		public void Update(Photo item)
 		{
 			vegaDbContext.Entry(item).State = EntityState.Modified;
+		}
+
+		public void Delete(int id)
+		{
+			var photo = new Photo() { Id = id };
+			vegaDbContext.Photos.Attach(photo);
+			vegaDbContext.Photos.Remove(photo);
 		}
 	}
 }

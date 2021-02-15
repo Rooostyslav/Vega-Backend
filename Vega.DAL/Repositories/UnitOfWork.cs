@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 using Vega.DAL.EF;
 using Vega.DAL.Entity;
 using Vega.DAL.Interfaces;
@@ -101,9 +102,9 @@ namespace Vega.DAL.Repositories
 			}
 		}
 
-		public void Save()
+		public async Task SaveAsync()
 		{
-			vegaDbContext.SaveChanges();
+			await vegaDbContext.SaveChangesAsync();
 		}
 	}
 }
