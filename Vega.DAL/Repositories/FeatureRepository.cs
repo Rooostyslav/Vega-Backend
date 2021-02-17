@@ -12,43 +12,68 @@ namespace Vega.DAL.Repositories
 {
 	public class FeatureRepository : IRepository<Feature>
 	{
-		public readonly VegaDbContext vegaDbContext;
+		private readonly VegaDbContext vegaDbContext;
+		private readonly DbSet<Feature> features;
 
 		public FeatureRepository(VegaDbContext vegaDbContext)
 		{
 			this.vegaDbContext = vegaDbContext;
+			features = vegaDbContext.Features;
 		}
 
 		public async Task<IEnumerable<Feature>> GetAllAsync()
 		{
-			return await vegaDbContext.Features.ToListAsync();
+			return await features.ToListAsync();
+		}
+
+		public async Task<IEnumerable<Feature>> GetByQueryAsync(IQueryable<Feature> query)
+		{
+			return await query.ToListAsync();
+		}
+
+		public IQueryable<Feature> GetAll()
+		{
+			return features.AsNoTracking();
 		}
 
 		public async Task<Feature> GetAsync(int id)
 		{
-			return await vegaDbContext.Features.FindAsync(id);
+			return await features.FindAsync(id);
 		}
 
 		public async Task<IEnumerable<Feature>> FindAsync(Expression<Func<Feature, bool>> predicate)
 		{
-			return await vegaDbContext.Features.Where(predicate).ToListAsync();
+			return await features.Where(predicate).ToListAsync();
 		}
 
-		public async Task InsertAsync(Feature item)
+		public IQueryable<Feature> FindBy(Expression<Func<Feature, bool>> predicate)
 		{
-			await vegaDbContext.Features.AddAsync(item);
+			return features.Where(predicate);
 		}
 
-		public void Update(Feature item)
+		public async Task CreateAsync(Feature item)
 		{
-			vegaDbContext.Entry(item).State = EntityState.Modified; 
+			await features.AddAsync(item);
+			await SaveAsync();
 		}
 
-		public void Delete(int id)
+		public async Task UpdateAsync(Feature item)
+		{
+			vegaDbContext.Entry(item).State = EntityState.Modified;
+			await SaveAsync();
+		}
+
+		public async Task DeleteAsync(int id)
 		{
 			var feature = new Feature() { Id = id };
-			vegaDbContext.Features.Attach(feature);
-			vegaDbContext.Features.Remove(feature);
+			features.Attach(feature);
+			features.Remove(feature);
+			await SaveAsync();
+		}
+
+		public async Task SaveAsync()
+		{
+			await vegaDbContext.SaveChangesAsync();
 		}
 	}
 }

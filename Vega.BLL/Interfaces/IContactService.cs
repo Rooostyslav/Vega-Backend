@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Vega.BLL.DTO.ContactModels;
 
 namespace Vega.BLL.Interfaces
 {
-	public interface IContactService
+	public interface IContactService : ICUDService<ContactDTO>
 	{
-		void Insert(ContactDTO contactDTO);
-		void Update(ContactDTO contactDTO);
-		void Delete(int id);
-		ViewContactDTO GetContact(int id);
-		IEnumerable<ViewContactDTO> GetContacts();
+		Task<IEnumerable<ViewContactDTO>> GetContactsAsync();
+
+		Task<ViewContactDTO> GetContactAsync(int id);
 	}
 }

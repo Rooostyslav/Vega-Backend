@@ -101,10 +101,5 @@ namespace Vega.DAL.Repositories
 				return photoRepository;
 			}
 		}
-
-		public async Task SaveAsync()
-		{
-			await vegaDbContext.SaveChangesAsync();
-		}
 	}
 }

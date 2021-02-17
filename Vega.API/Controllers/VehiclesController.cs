@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Linq;
+using System.Threading.Tasks;
 using Vega.BLL.BusinessModels;
 using Vega.BLL.DTO.VehicleModels;
 using Vega.BLL.Interfaces;
@@ -17,22 +17,11 @@ namespace Vega.API.Controllers
 			this.vehiclesService = vehiclesService;
 		}
 
-		[HttpGet("{id}")]
-		public IActionResult GetVehicle(int id)
-		{
-			var vehicle = vehiclesService.GetVehicle(id);
-			if (vehicle != null)
-			{
-				return Ok(vehicle);
-			}
-
-			return NoContent();
-		}
-
 		[HttpGet]
-		public IActionResult GetVehicles([FromQuery] VehicleFilter filter)
+		public async Task<IActionResult> GetVehiclesAsync([FromQuery] VehicleFilter filter)
 		{
-			var vehicles = vehiclesService.GetVehicles(filter);
+			var vehicles = await vehiclesService.GetVehiclesAsync(filter);
+
 			if (vehicles.TotalItems > 0)
 			{
 				return Ok(vehicles);
@@ -41,37 +30,50 @@ namespace Vega.API.Controllers
 			return NoContent();
 		}
 
+		[HttpGet("{id}")]
+		public async Task<IActionResult> GetVehicleAsync(int id)
+		{
+			var vehicle = await vehiclesService.GetVehicleAsync(id);
+
+			if (vehicle != null)
+			{
+				return Ok(vehicle);
+			}
+
+			return NoContent();
+		}
 
 		[HttpPost]
-		public IActionResult CreateVehicles([FromBody] CreateUpdateVehicleDTO vehicle)
+		public async Task<IActionResult> CreateVehiclesAsync([FromBody] CreateUpdateVehicleDTO vehicle)
 		{
 			if (!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
 			}
 
-			vehiclesService.Insert(vehicle);
+			await vehiclesService.CreateAsync(vehicle);
 
 			return Ok();
 		}
 
 		[HttpPut("{id}")]
-		public IActionResult UpdateVehicle(int id, [FromBody] CreateUpdateVehicleDTO vehicle)
+		public async Task<IActionResult> UpdateVehicleAsync(int id, [FromBody] CreateUpdateVehicleDTO vehicle)
 		{
 			if (!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
 			}
 
-			vehiclesService.Update(id, vehicle);
+			await vehiclesService.UpdateAsync(id, vehicle);
 
 			return Ok();
 		}
 
 		[HttpDelete("{id}")]
-		public IActionResult DeleteVehicle(int id)
+		public async Task<IActionResult> DeleteVehicleAsync(int id)
 		{
-			vehiclesService.Delete(id);
+			await vehiclesService.DeleteAsync(id);
+
 			return Ok();
 		}
 	}

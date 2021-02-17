@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Vega.BLL.DTO;
 
 namespace Vega.BLL.Interfaces
 {
-	public interface IFeatureService
+	public interface IFeatureService : ICUDService<FeatureDTO>
 	{
-		void Insert(FeatureDTO featureDTO);
-		void Update(FeatureDTO featureDTO);
-		void Delete(int id);
-		FeatureDTO GetFeature(int id);
-		IEnumerable<FeatureDTO> GetFeatures();
+		Task<IEnumerable<FeatureDTO>> GetFeaturesAsync();
+
+		Task<FeatureDTO> GetFeatureAsync(int id);
 	}
 }

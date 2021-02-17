@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Vega.BLL.DTO;
 using Vega.BLL.Interfaces;
 using Vega.DAL.Entity;
@@ -18,36 +19,34 @@ namespace Vega.BLL.Services
 			this.mapper = mapper;
 		}
 
-		public void Delete(int id)
+		public async Task<IEnumerable<FeatureDTO>> GetFeaturesAsync()
 		{
-			unitOfWork.Features.Delete(id);
-			unitOfWork.Save();
-		}
-
-		public FeatureDTO GetFeature(int id)
-		{
-			var feature = unitOfWork.Features.Get(id);
-			return mapper.Map<FeatureDTO>(feature);
-		}
-
-		public IEnumerable<FeatureDTO> GetFeatures()
-		{
-			var features = unitOfWork.Features.GetAll();
+			var features = await unitOfWork.Features.GetAllAsync();
 			return mapper.Map<IEnumerable<FeatureDTO>>(features);
 		}
 
-		public void Insert(FeatureDTO featureDTO)
+		public async Task<FeatureDTO> GetFeatureAsync(int id)
 		{
-			var feature = mapper.Map<Feature>(featureDTO);
-			unitOfWork.Features.Insert(feature);
-			unitOfWork.Save();
+			var feature = await unitOfWork.Features.GetAsync(id);
+			return mapper.Map<FeatureDTO>(feature);
 		}
 
-		public void Update(FeatureDTO featureDTO)
+		public async Task CreateAsync(FeatureDTO featureDTO)
 		{
 			var feature = mapper.Map<Feature>(featureDTO);
-			unitOfWork.Features.Update(feature);
-			unitOfWork.Save();
+			await unitOfWork.Features.CreateAsync(feature);
+		}
+
+		public async Task UpdateAsync(int id, FeatureDTO featureDTO)
+		{
+			var feature = mapper.Map<Feature>(featureDTO);
+			feature.Id = id;
+			await unitOfWork.Features.UpdateAsync(feature);
+		}
+
+		public async Task DeleteAsync(int id)
+		{
+			await unitOfWork.Features.DeleteAsync(id);
 		}
 	}
 }

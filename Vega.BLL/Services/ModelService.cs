@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Vega.BLL.DTO;
 using Vega.BLL.Interfaces;
 using Vega.DAL.Entity;
@@ -18,36 +19,34 @@ namespace Vega.BLL.Services
 			this.mapper = mapper;
 		}
 
-		public void Delete(int id)
+		public async Task<IEnumerable<ModelDTO>> GetModelsAsync()
 		{
-			unitOfWork.Models.Delete(id);
-			unitOfWork.Save();
-		}
-
-		public ModelDTO GetModel(int id)
-		{
-			var model = unitOfWork.Models.Get(id);
-			return mapper.Map<ModelDTO>(model);
-		}
-
-		public IEnumerable<ModelDTO> GetModels()
-		{
-			var models = unitOfWork.Models.GetAll();
+			var models = await unitOfWork.Models.GetAllAsync();
 			return mapper.Map<IEnumerable<ModelDTO>>(models);
 		}
 
-		public void Insert(ModelDTO modelDTO)
+		public async Task<ModelDTO> GetModelAsync(int id)
 		{
-			var model = mapper.Map<Model>(modelDTO);
-			unitOfWork.Models.Insert(model);
-			unitOfWork.Save();
+			var model = await unitOfWork.Models.GetAsync(id);
+			return mapper.Map<ModelDTO>(model);
 		}
 
-		public void Update(ModelDTO modelDTO)
+		public async Task CreateAsync(ModelDTO modelDTO)
 		{
 			var model = mapper.Map<Model>(modelDTO);
-			unitOfWork.Models.Update(model);
-			unitOfWork.Save();
+			await unitOfWork.Models.CreateAsync(model);
+		}
+
+		public async Task UpdateAsync(int id, ModelDTO modelDTO)
+		{
+			var model = mapper.Map<Model>(modelDTO);
+			model.Id = id;
+			await unitOfWork.Models.UpdateAsync(model);
+		}
+
+		public async Task DeleteAsync(int id)
+		{
+			await unitOfWork.Models.DeleteAsync(id);
 		}
 	}
 }

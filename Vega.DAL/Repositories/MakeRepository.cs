@@ -13,45 +13,69 @@ namespace Vega.DAL.Repositories
 	public class MakeRepository : IRepository<Make>
 	{
 		private readonly VegaDbContext vegaDbContext;
+		private readonly DbSet<Make> makes;
 
 		public MakeRepository(VegaDbContext vegaDbContext)
 		{
 			this.vegaDbContext = vegaDbContext;
+			makes = vegaDbContext.Makes;
 		}
 
 		public async Task<IEnumerable<Make>> GetAllAsync()
 		{
-			return await vegaDbContext.Makes.Include(m => m.Models).ToListAsync();
+			return await makes.Include(m => m.Models).ToListAsync();
+		}
+
+		public async Task<IEnumerable<Make>> GetByQueryAsync(IQueryable<Make> query)
+		{
+			return await query.ToListAsync();
+		}
+
+		public IQueryable<Make> GetAll()
+		{
+			return makes.AsNoTracking();
 		}
 
 		public async Task<Make> GetAsync(int id)
 		{
-			return await vegaDbContext.Makes.FindAsync(id);
+			return await makes.FindAsync(id);
 		}
 
 		public async Task<IEnumerable<Make>> FindAsync(Expression<Func<Make, bool>> predicate)
 		{
-			return await vegaDbContext.Makes
-				.Include(m => m.Models)
+			return await makes.Include(m => m.Models)
 				.Where(predicate)
 				.ToListAsync();
 		}
 
-		public async Task InsertAsync(Make item)
+		public IQueryable<Make> FindBy(Expression<Func<Make, bool>> predicate)
 		{
-			await vegaDbContext.Makes.AddAsync(item);
+			return makes.Where(predicate);
 		}
 
-		public void Update(Make item)
+		public async Task CreateAsync(Make item)
+		{
+			await makes.AddAsync(item);
+			await SaveAsync();
+		}
+
+		public async Task UpdateAsync(Make item)
 		{
 			vegaDbContext.Entry(item).State = EntityState.Modified;
+			await SaveAsync();
 		}
 
-		public void Delete(int id)
+		public async Task DeleteAsync(int id)
 		{
 			var make = new Make() { Id = id };
-			vegaDbContext.Makes.Attach(make);
-			vegaDbContext.Makes.Remove(make);
+			makes.Attach(make);
+			makes.Remove(make);
+			await SaveAsync();
+		}
+
+		public async Task SaveAsync()
+		{
+			await vegaDbContext.SaveChangesAsync();
 		}
 	}
 }

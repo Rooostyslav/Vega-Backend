@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Vega.BLL.BusinessModels;
 using Vega.BLL.DTO.VehicleModels;
 using Vega.BLL.Interfaces;
@@ -13,58 +15,46 @@ namespace Vega.BLL.Services
 	public class VehicleService : IVehicleService
 	{
 		private readonly IUnitOfWork unitOfWork;
+		private readonly IRepository<Vehicle> vehicleRepository;
 		private readonly IMapper mapper;
 
 		public VehicleService(IUnitOfWork unitOfWork, IMapper mapper)
 		{
 			this.unitOfWork = unitOfWork;
+			vehicleRepository = unitOfWork.Vehicles;
 			this.mapper = mapper;
 		}
 
-		public void Delete(int id)
+		public async Task<IEnumerable<ViewVehicleDTO>> GetVehiclesAsync()
 		{
-			unitOfWork.Vehicles.Delete(id);
-			unitOfWork.Save();
-		}
-
-		public ViewVehicleDTO GetVehicle(int id)
-		{
-			var vehicle = unitOfWork.Vehicles.Get(id);
-			return mapper.Map<ViewVehicleDTO>(vehicle);
-		}
-
-		public IEnumerable<ViewVehicleDTO> GetVehicles()
-		{
-			var vehicles = unitOfWork.Vehicles.GetAll();
+			var vehicles = await vehicleRepository.GetAllAsync();
 			return mapper.Map<IEnumerable<ViewVehicleDTO>>(vehicles);
 		}
 
-		public QueryResult<ViewVehicleDTO> GetVehicles(VehicleFilter filter)
+		public async Task<ViewVehicleDTO> GetVehicleAsync(int id)
 		{
-			var vehicles = unitOfWork.Vehicles.GetAll();
+			var vehicle = await vehicleRepository.GetAsync(id);
+			return mapper.Map<ViewVehicleDTO>(vehicle);
+		}
 
-			if (filter.MakeId.HasValue)
-			{
-				vehicles = vehicles.Where(v => v.Model.MakeId == filter.MakeId);
-			}
-			if (filter.ModelId.HasValue)
-			{
-				vehicles = vehicles.Where(v => v.ModelId == filter.ModelId);
-			}
+		public async Task<QueryResult<ViewVehicleDTO>> GetVehiclesAsync(VehicleFilter filter)
+		{
+			IQueryable<Vehicle> query = FindVehicles(filter);
 
+			IOrderedQueryable<Vehicle> orderedQuery;
 			switch(filter.SortBy)
 			{
-				case "id":
-					vehicles = SortVehicles(vehicles, v => v.Id, filter.IsSortAscending);
-					break;
 				case "make":
-					vehicles = SortVehicles(vehicles, v => v.Model.Make.Name, filter.IsSortAscending);
+					orderedQuery = SortVehicles(query, v => v.Model.Make.Name, filter.IsSortAscending);
 					break;
 				case "model":
-					vehicles = SortVehicles(vehicles, v => v.Model.Name, filter.IsSortAscending);
+					orderedQuery = SortVehicles(query, v => v.Model.Name, filter.IsSortAscending);
 					break;
 				case "contactName":
-					vehicles = SortVehicles(vehicles, v => v.Contact.Name, filter.IsSortAscending);
+					orderedQuery = SortVehicles(query, v => v.Contact.Name, filter.IsSortAscending);
+					break;
+				default: //"id"
+					orderedQuery = SortVehicles(query, v => v.Id, filter.IsSortAscending);
 					break;
 			}
 
@@ -78,48 +68,80 @@ namespace Vega.BLL.Services
 			}
 
 			QueryResult<ViewVehicleDTO> result = new QueryResult<ViewVehicleDTO>();
-			result.TotalItems = vehicles.Count();
+			result.TotalItems = orderedQuery.Count();
 
-			vehicles = vehicles.Skip((filter.Page - 1) * filter.PageSize).Take(filter.PageSize);
+			query = orderedQuery.Skip(filter.SkipPagesQuantity).Take(filter.PageSize);
+
+			var vehicles = await vehicleRepository.GetByQueryAsync(query);
 
 			result.Items = mapper.Map<IEnumerable<ViewVehicleDTO>>(vehicles);
 
 			return result;
 		}
 
-		public void Insert(CreateUpdateVehicleDTO createUpdateVehicleDTO)
+		public async Task CreateAsync(CreateUpdateVehicleDTO createUpdateVehicleDTO)
 		{
 			var vehicle = CreateUpdateVehicleToVehicle(createUpdateVehicleDTO);
-			unitOfWork.Vehicles.Insert(vehicle);
-			unitOfWork.Save();
+			await vehicleRepository.CreateAsync(vehicle);
 		}
 
-		public void Update(int id, CreateUpdateVehicleDTO createUpdateVehicleDTO)
+		public async Task UpdateAsync(int id, CreateUpdateVehicleDTO createUpdateVehicleDTO)
 		{
 			var vehicle = CreateUpdateVehicleToVehicle(createUpdateVehicleDTO);
 			vehicle.Id = id;
-			unitOfWork.Vehicles.Update(vehicle);
-			unitOfWork.Save();
+			await vehicleRepository.UpdateAsync(vehicle);
 		}
 
-		private IEnumerable<Vehicle> SortVehicles(IEnumerable<Vehicle> vehicles,
-			Func<Vehicle, object> keySelector, bool isSortAscending)
+		public async Task DeleteAsync(int id)
 		{
-			if (isSortAscending)
+			await vehicleRepository.DeleteAsync(id);
+		}
+
+		private IQueryable<Vehicle> FindVehicles(VehicleFilter filter)
+		{
+			IQueryable<Vehicle> query = null;
+
+			if (filter.MakeId.HasValue)
 			{
-				return vehicles.OrderBy(keySelector);
+				query = vehicleRepository.FindBy(v => v.Model.MakeId == filter.MakeId);
+			}
+			else if (filter.ModelId.HasValue)
+			{
+				if (query == null)
+				{
+					query = vehicleRepository.FindBy(v => v.ModelId == filter.ModelId);
+				}
+				else
+				{
+					query = query.Where(v => v.ModelId == filter.ModelId);
+				}
 			}
 			else
 			{
-				return vehicles.OrderByDescending(keySelector);
+				query = vehicleRepository.GetAll();
+			}
+
+			return query;
+		}
+
+		private IOrderedQueryable<Vehicle> SortVehicles(IQueryable<Vehicle> query,
+			Expression<Func<Vehicle, object>> keySelector, bool isSortAscending)
+		{
+			if (isSortAscending)
+			{
+				return query.OrderBy(keySelector);
+			}
+			else
+			{
+				return query.OrderByDescending(keySelector);
 			}
 		}
 
 		private Vehicle CreateUpdateVehicleToVehicle(CreateUpdateVehicleDTO createUpdateVehicleDTO)
 		{
 			var vehicle = mapper.Map<Vehicle>(createUpdateVehicleDTO);
-			vehicle.Features = createUpdateVehicleDTO.Features
-				.Select(f => unitOfWork.Features.Get(f))
+			vehicle.Features = (ICollection<Feature>)createUpdateVehicleDTO.Features
+				.Select(async f => await unitOfWork.Features.GetAsync(f))
 				.ToList();
 
 			vehicle.LastUpdate = DateTime.Now;

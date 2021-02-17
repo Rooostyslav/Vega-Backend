@@ -13,42 +13,67 @@ namespace Vega.DAL.Repositories
 	public class PhotoRepository : IRepository<Photo>
 	{
 		private readonly VegaDbContext vegaDbContext;
+		private readonly DbSet<Photo> photos;
 
 		public PhotoRepository(VegaDbContext vegaDbContext)
 		{
 			this.vegaDbContext = vegaDbContext;
+			photos = vegaDbContext.Photos;
 		}
 
 		public async Task<IEnumerable<Photo>> GetAllAsync()
 		{
-			return await vegaDbContext.Photos.ToListAsync();
+			return await photos.ToListAsync();
+		}
+
+		public async Task<IEnumerable<Photo>> GetByQueryAsync(IQueryable<Photo> query)
+		{
+			return await query.ToListAsync();
+		}
+
+		public IQueryable<Photo> GetAll()
+		{
+			return photos.AsNoTracking();
 		}
 
 		public async Task<Photo> GetAsync(int id)
 		{
-			return await vegaDbContext.Photos.FindAsync(id);
+			return await photos.FindAsync(id);
 		}
 
 		public async Task<IEnumerable<Photo>> FindAsync(Expression<Func<Photo, bool>> predicate)
 		{
-			return await vegaDbContext.Photos.Where(predicate).ToListAsync();
+			return await photos.Where(predicate).ToListAsync();
 		}
 
-		public async Task InsertAsync(Photo item)
+		public IQueryable<Photo> FindBy(Expression<Func<Photo, bool>> predicate)
 		{
-			await vegaDbContext.Photos.AddAsync(item);
+			return photos.Where(predicate);
 		}
 
-		public void Update(Photo item)
+		public async Task CreateAsync(Photo item)
+		{
+			await photos.AddAsync(item);
+			await SaveAsync();
+		}
+
+		public async Task UpdateAsync(Photo item)
 		{
 			vegaDbContext.Entry(item).State = EntityState.Modified;
+			await SaveAsync();
 		}
 
-		public void Delete(int id)
+		public async Task DeleteAsync(int id)
 		{
 			var photo = new Photo() { Id = id };
-			vegaDbContext.Photos.Attach(photo);
-			vegaDbContext.Photos.Remove(photo);
+			photos.Attach(photo);
+			photos.Remove(photo);
+			await SaveAsync();
+		}
+
+		public async Task SaveAsync()
+		{
+			await vegaDbContext.SaveChangesAsync();
 		}
 	}
 }

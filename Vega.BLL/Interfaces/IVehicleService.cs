@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Vega.BLL.BusinessModels;
 using Vega.BLL.DTO.VehicleModels;
 
 namespace Vega.BLL.Interfaces
 {
-	public interface IVehicleService
+	public interface IVehicleService : ICUDService<CreateUpdateVehicleDTO>
 	{
-		void Insert(CreateUpdateVehicleDTO createUpdateVehicleDTO);
-		void Update(int id, CreateUpdateVehicleDTO createUpdateVehicleDTO);
-		void Delete(int id);
-		ViewVehicleDTO GetVehicle(int id);
-		IEnumerable<ViewVehicleDTO> GetVehicles();
-		QueryResult<ViewVehicleDTO> GetVehicles(VehicleFilter filter);
+		Task<ViewVehicleDTO> GetVehicleAsync(int id);
+
+		Task<IEnumerable<ViewVehicleDTO>> GetVehiclesAsync();
+
+		Task<QueryResult<ViewVehicleDTO>> GetVehiclesAsync(VehicleFilter filter);
 	}
 }

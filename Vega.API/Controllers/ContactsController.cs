@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Vega.BLL.DTO.ContactModels;
 using Vega.BLL.Interfaces;
@@ -17,9 +18,10 @@ namespace Vega.API.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult GetContacts()
+		public async Task<IActionResult> GetContactsAsync()
 		{
-			var contacts = contactService.GetContacts();
+			var contacts = await contactService.GetContactsAsync();
+
 			if (contacts.Count() > 0)
 			{
 				return Ok(contacts);
@@ -29,9 +31,14 @@ namespace Vega.API.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult CreateContact([FromBody] ContactDTO contact)
+		public async Task<IActionResult> CreateContactAsync([FromBody] ContactDTO contact)
 		{
-			contactService.Insert(contact);
+			if (ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
+			await contactService.CreateAsync(contact);
 
 			return Ok(contact);
 		}

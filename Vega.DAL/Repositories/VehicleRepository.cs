@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Vega.DAL.EF;
 using Vega.DAL.Entity;
+using Vega.DAL.Extensions;
 using Vega.DAL.Interfaces;
 
 namespace Vega.DAL.Repositories
@@ -13,53 +14,70 @@ namespace Vega.DAL.Repositories
 	public class VehicleRepository : IRepository<Vehicle>
 	{
 		private readonly VegaDbContext vegaDbContext;
+		private readonly DbSet<Vehicle> vehicles;
 
 		public VehicleRepository(VegaDbContext vegaDbContext)
 		{
 			this.vegaDbContext = vegaDbContext;
+			vehicles = vegaDbContext.Vehicles;
 		}
 
 		public async Task<IEnumerable<Vehicle>> GetAllAsync()
 		{
-			return await GetAllWithIncludes().ToListAsync();
+			return await vehicles.Includes().ToListAsync();
+		}
+
+		public async Task<IEnumerable<Vehicle>> GetByQueryAsync(IQueryable<Vehicle> query)
+		{
+			return await query.Includes().ToListAsync();
+		}
+
+		public IQueryable<Vehicle> GetAll()
+		{
+			return vehicles.AsNoTracking();
 		}
 
 		public async Task<Vehicle> GetAsync(int id)
 		{
-			return await GetAllWithIncludes().FirstOrDefaultAsync(v => v.Id == id);
+			return await vehicles.Includes().FirstOrDefaultAsync(v => v.Id == id);
 		}
 
 		public async Task<IEnumerable<Vehicle>> FindAsync(Expression<Func<Vehicle, bool>> predicate)
 		{
-			return await GetAllWithIncludes().Where(predicate).ToListAsync();
+			return await vehicles.Where(predicate).Includes().ToListAsync();
 		}
 
-		public async Task InsertAsync(Vehicle item)
+		public IQueryable<Vehicle> FindBy(Expression<Func<Vehicle, bool>> predicate)
 		{
-			await vegaDbContext.Vehicles.AddAsync(item);
+			return vehicles.Includes().Where(predicate);
 		}
 
-		public void Update(Vehicle item)
+		public async Task CreateAsync(Vehicle item)
 		{
-			var oldItem = GetAsync(item.Id).Result;
+			await vehicles.AddAsync(item);
+			await SaveAsync();
+		}
+
+		public async Task UpdateAsync(Vehicle item)
+		{
+			var oldItem = await GetAsync(item.Id);
 			oldItem.Features = item.Features;
 			vegaDbContext.Entry(oldItem).CurrentValues.SetValues(item);
+			await SaveAsync();
+
 		}
 
-		public void Delete(int id)
+		public async Task DeleteAsync(int id)
 		{
 			var vehicle = new Vehicle() { Id = id };
-			vegaDbContext.Vehicles.Attach(vehicle);
-			vegaDbContext.Vehicles.Remove(vehicle);
+			vehicles.Attach(vehicle);
+			vehicles.Remove(vehicle);
+			await SaveAsync();
 		}
 
-		private IQueryable<Vehicle> GetAllWithIncludes()
+		public async Task SaveAsync()
 		{
-			return vegaDbContext.Vehicles
-				.Include(v => v.Model)
-				.ThenInclude(m => m.Make)
-				.Include(v => v.Contact)
-				.Include(v => v.Features);
+			await vegaDbContext.SaveChangesAsync();
 		}
 	}
 }

@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Vega.BLL.DTO;
 
 namespace Vega.BLL.Interfaces
 {
-	public interface IMakeService
+	public interface IMakeService : ICUDService<MakeDTO>
 	{
-		void Insert(MakeDTO makekDTO);
-		void Update(MakeDTO makekDTO);
-		void Delete(int id);
-		MakeDTO GetMake(int id);
-		IEnumerable<MakeDTO> GetMakes();
+		Task<IEnumerable<MakeDTO>> GetMakesAsync();
+
+		Task<MakeDTO> GetMakeAsync(int id);
 	}
 }

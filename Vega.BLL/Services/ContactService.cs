@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using System.Collections.Generic;
-using Vega.BLL.DTO;
+using System.Threading.Tasks;
 using Vega.BLL.DTO.ContactModels;
 using Vega.BLL.Interfaces;
 using Vega.DAL.Entity;
@@ -19,36 +19,34 @@ namespace Vega.BLL.Services
 			this.mapper = mapper;
 		}
 
-		public void Delete(int id)
+		public async Task<IEnumerable<ViewContactDTO>> GetContactsAsync()
 		{
-			unitOfWork.Contacts.Delete(id);
-			unitOfWork.Save();
-		}
-
-		public ViewContactDTO GetContact(int id)
-		{
-			var contact = unitOfWork.Contacts.Get(id);
-			return mapper.Map<ViewContactDTO>(contact);
-		}
-
-		public IEnumerable<ViewContactDTO> GetContacts()
-		{
-			var contacts = unitOfWork.Contacts.GetAll();
+			var contacts = await unitOfWork.Contacts.GetAllAsync();
 			return mapper.Map<IEnumerable<ViewContactDTO>>(contacts);
 		}
 
-		public void Insert(ContactDTO contactDTO)
+		public async Task<ViewContactDTO> GetContactAsync(int id)
 		{
-			var contact = mapper.Map<Contact>(contactDTO);
-			unitOfWork.Contacts.Insert(contact);
-			unitOfWork.Save();
+			var contact = await unitOfWork.Contacts.GetAsync(id);
+			return mapper.Map<ViewContactDTO>(contact);
 		}
 
-		public void Update(ContactDTO contactDTO)
+		public async Task CreateAsync(ContactDTO contactDTO)
 		{
 			var contact = mapper.Map<Contact>(contactDTO);
-			unitOfWork.Contacts.Update(contact);
-			unitOfWork.Save();
+			await unitOfWork.Contacts.CreateAsync(contact);
+		}
+
+		public async Task UpdateAsync(int id, ContactDTO contactDTO)
+		{
+			var contact = mapper.Map<Contact>(contactDTO);
+			contact.Id = id;
+			await unitOfWork.Contacts.UpdateAsync(contact);
+		}
+
+		public async Task DeleteAsync(int id)
+		{
+			await unitOfWork.Contacts.DeleteAsync(id);
 		}
 	}
 }

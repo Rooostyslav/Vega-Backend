@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Vega.BLL.DTO;
 using Vega.BLL.Interfaces;
 using Vega.DAL.Entity;
@@ -18,36 +19,34 @@ namespace Vega.BLL.Services
 			this.mapper = mapper;
 		}
 
-		public void Delete(int id)
+		public async Task<IEnumerable<MakeDTO>> GetMakesAsync()
 		{
-			unitOfWork.Makes.Delete(id);
-			unitOfWork.Save();
-		}
-
-		public MakeDTO GetMake(int id)
-		{
-			var make = unitOfWork.Makes.Get(id);
-			return mapper.Map<MakeDTO>(make);
-		}
-
-		public IEnumerable<MakeDTO> GetMakes()
-		{
-			var makes = unitOfWork.Makes.GetAll();
+			var makes = await unitOfWork.Makes.GetAllAsync();
 			return mapper.Map<IEnumerable<MakeDTO>>(makes);
 		}
 
-		public void Insert(MakeDTO makekDTO)
+		public async Task<MakeDTO> GetMakeAsync(int id)
 		{
-			var make = mapper.Map<Make>(makekDTO);
-			unitOfWork.Makes.Insert(make);
-			unitOfWork.Save();
+			var make = await unitOfWork.Makes.GetAsync(id);
+			return mapper.Map<MakeDTO>(make);
 		}
 
-		public void Update(MakeDTO makekDTO)
+		public async Task CreateAsync(MakeDTO makekDTO)
 		{
 			var make = mapper.Map<Make>(makekDTO);
-			unitOfWork.Makes.Update(make);
-			unitOfWork.Save();
+			await unitOfWork.Makes.CreateAsync(make);
+		}
+
+		public async Task UpdateAsync(int id, MakeDTO makekDTO)
+		{
+			var make = mapper.Map<Make>(makekDTO);
+			make.Id = id;
+			await unitOfWork.Makes.UpdateAsync(make);
+		}
+
+		public async Task DeleteAsync(int id)
+		{
+			await unitOfWork.Makes.DeleteAsync(id);
 		}
 	}
 }

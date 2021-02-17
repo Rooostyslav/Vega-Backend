@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Vega.BLL.DTO;
 
 namespace Vega.BLL.Interfaces
 {
-	public interface IModelService
+	public interface IModelService : ICUDService<ModelDTO>
 	{
-		void Insert(ModelDTO modelDTO);
-		void Update(ModelDTO modelDTO);
-		void Delete(int id);
-		ModelDTO GetModel(int id);
-		IEnumerable<ModelDTO> GetModels();
+		Task<IEnumerable<ModelDTO>> GetModelsAsync();
+
+		Task<ModelDTO> GetModelAsync(int id);
 	}
 }

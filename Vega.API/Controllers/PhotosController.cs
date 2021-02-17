@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,9 +31,9 @@ namespace Vega.API.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult UploadPhoto(int vehicleId, IFormFile file)
+		public async Task<IActionResult> UploadPhotoAsync(int vehicleId, IFormFile file)
 		{
-			var vehicle = vehicleService.GetVehicle(vehicleId);
+			var vehicle = vehicleService.GetVehicleAsync(vehicleId);
 			if (vehicle == null)
 			{
 				return NotFound();
@@ -74,15 +75,15 @@ namespace Vega.API.Controllers
 				VehicleId = vehicle.Id
 			};
 
-			photoService.Insert(photo);
+			await photoService.CreateAsync(photo);
 
 			return Ok();
 		}
 
 		[HttpGet]
-		public IActionResult GetPhotos(int vehicleId)
+		public async Task<IActionResult> GetPhotosAsync(int vehicleId)
 		{
-			var photo = photoService.GetPhoto(vehicleId);
+			var photo = await photoService.GetPhotoAsync(vehicleId);
 			if (photo == null)
 			{
 				return NotFound("Photos not exist");
@@ -94,6 +95,5 @@ namespace Vega.API.Controllers
 
 			return PhysicalFile(filePath, photoType, photo.FileName);
 		}
-
 	}
 }

@@ -5,6 +5,7 @@ using Vega.BLL.Interfaces;
 using Vega.DAL.Entity;
 using Vega.DAL.Interfaces;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Vega.BLL.Services
 {
@@ -19,32 +20,35 @@ namespace Vega.BLL.Services
 			this.mapper = mapper;
 		}
 
-		public void Insert(PhotoDTO photoDTO)
+		public async Task<IEnumerable<PhotoDTO>> GetPhotosAsync(int vehicleId)
 		{
-			var photo = mapper.Map<Photo>(photoDTO);
-			unitOfWork.Photos.Insert(photo);
-			unitOfWork.Save();
+			var photos = await unitOfWork.Photos.FindAsync(p => p.VehicleId == vehicleId);
+			return mapper.Map<IEnumerable<PhotoDTO>>(photos);
 		}
 
-		public void Delete(int id)
+		public async Task<PhotoDTO> GetPhotoAsync(int vehicleId)
 		{
-			var photo = unitOfWork.Photos.Get(id);
-			if (photo != null)
-			{
-				unitOfWork.Photos.Delete(id);
-			}
-		}
-
-		public PhotoDTO GetPhoto(int vehicleId)
-		{
-			var photo = unitOfWork.Photos.GetAll().FirstOrDefault(p => p.VehicleId == vehicleId);
+			var photos = await unitOfWork.Photos.FindAsync(p => p.VehicleId == vehicleId);
+			var photo = photos.FirstOrDefault();
 			return mapper.Map<PhotoDTO>(photo);
 		}
 
-		public IEnumerable<PhotoDTO> GetPhotos(int vehicleId)
+		public async Task CreateAsync(PhotoDTO photoDTO)
 		{
-			var photos = unitOfWork.Photos.Find(p => p.VehicleId == vehicleId);
-			return mapper.Map<IEnumerable<PhotoDTO>>(photos);
+			var photo = mapper.Map<Photo>(photoDTO);
+			await unitOfWork.Photos.CreateAsync(photo);
+		}
+
+		public async Task UpdateAsync(int id, PhotoDTO item)
+		{
+			var photo = mapper.Map<Photo>(item);
+			photo.Id = id;
+			await unitOfWork.Photos.UpdateAsync(photo);
+		}
+
+		public async Task DeleteAsync(int id)
+		{
+			await unitOfWork.Photos.DeleteAsync(id);
 		}
 	}
 }

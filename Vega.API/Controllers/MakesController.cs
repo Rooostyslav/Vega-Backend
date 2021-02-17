@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading.Tasks;
 using Vega.BLL.Interfaces;
 
 namespace Vega.API.Controllers
@@ -16,9 +17,10 @@ namespace Vega.API.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult GetMakes()
+		public async Task<IActionResult> GetMakesAsync()
 		{
-			var makes = makeService.GetMakes();
+			var makes = await makeService.GetMakesAsync();
+
 			if (makes.Count() > 0)
 			{
 				return Ok(makes);
