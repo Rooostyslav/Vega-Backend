@@ -1,12 +1,8 @@
 ﻿
-namespace Vega.BLL.BusinessModels
+namespace Vega.BLL.BusinessModels.Filters
 {
-	public class VehicleFilter
+	public abstract class BaseFilter
 	{
-		public int? MakeId { get; set; }
-
-		public int? ModelId { get; set; }
-
 		public string SortBy { get; set; }
 
 		public bool IsSortAscending { get; set; }

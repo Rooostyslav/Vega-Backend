@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Vega.BLL.BusinessModels
+namespace Vega.BLL.BusinessModels.Shared
 {
 	public class QueryResult<T>
 	{

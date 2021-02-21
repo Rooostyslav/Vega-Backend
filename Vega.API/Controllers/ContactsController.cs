@@ -33,7 +33,7 @@ namespace Vega.API.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreateContactAsync([FromBody] ContactDTO contact)
 		{
-			if (ModelState.IsValid)
+			if (!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
 			}

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Vega.BLL.BusinessModels;
+using Vega.BLL.BusinessModels.Settings;
 using Vega.BLL.DTO.PhotoModels;
 using Vega.BLL.Interfaces;
 

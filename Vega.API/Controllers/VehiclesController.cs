@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Vega.BLL.BusinessModels;
+using Vega.BLL.BusinessModels.Filters;
 using Vega.BLL.DTO.VehicleModels;
 using Vega.BLL.Interfaces;
 

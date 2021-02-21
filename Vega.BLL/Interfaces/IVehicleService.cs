@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Vega.BLL.BusinessModels;
+using Vega.BLL.BusinessModels.Filters;
+using Vega.BLL.BusinessModels.Shared;
 using Vega.BLL.DTO.VehicleModels;
 
 namespace Vega.BLL.Interfaces

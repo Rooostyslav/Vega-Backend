@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Vega.BLL.BusinessModels;
+using Vega.BLL.BusinessModels.Filters;
+using Vega.BLL.BusinessModels.Shared;
 using Vega.BLL.DTO.VehicleModels;
 using Vega.BLL.Interfaces;
 using Vega.DAL.Entity;
@@ -140,8 +141,9 @@ namespace Vega.BLL.Services
 		private Vehicle CreateUpdateVehicleToVehicle(CreateUpdateVehicleDTO createUpdateVehicleDTO)
 		{
 			var vehicle = mapper.Map<Vehicle>(createUpdateVehicleDTO);
-			vehicle.Features = (ICollection<Feature>)createUpdateVehicleDTO.Features
-				.Select(async f => await unitOfWork.Features.GetAsync(f))
+
+			vehicle.Features = createUpdateVehicleDTO.Features
+				.Select(f => unitOfWork.Features.GetAsync(f).Result)
 				.ToList();
 
 			vehicle.LastUpdate = DateTime.Now;

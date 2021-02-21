@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 
-namespace Vega.BLL.BusinessModels
+namespace Vega.BLL.BusinessModels.Settings
 {
 	public class PhotoSettings
 	{
